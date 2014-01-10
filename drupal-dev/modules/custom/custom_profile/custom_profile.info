@@ -1,0 +1,17 @@
+name = Profile
+description = Provides a <em>Profile</em>
+core = 7.x
+package = ypk
+version = 7.x-1.2
+project = custom_profile
+dependencies[] = features
+dependencies[] = image
+dependencies[] = text
+features[features_api][] = api:2
+features[field_base][] = field_cp_bio
+features[field_base][] = field_cp_picture
+features[field_base][] = field_cp_social_link
+features[field_instance][] = node-profile-field_cp_bio
+features[field_instance][] = node-profile-field_cp_picture
+features[field_instance][] = node-profile-field_cp_social_link
+features[node][] = profile

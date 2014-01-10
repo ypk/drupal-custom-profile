@@ -1,0 +1,85 @@
+<?php
+/**
+ * Implements hook_block_info
+ * 
+ * @return Object $blocks
+ */
+function custom_header_block_info() {
+	$blocks = array ();
+	$blocks ['custom_header'] = array (
+			'info' => t ( 'Header' ),
+			'weight' => 0,
+			'cache' => DRUPAL_CACHE_CUSTOM,
+			'status' => 1,
+			'visibility' => 0,
+			'region' => 'header' 
+	);
+	return $blocks;
+}
+/**
+ * Implements hook_block_view
+ * 
+ * @param string $delta
+ * @return Object $block
+ */
+function custom_header_block_view($delta = '') {
+	switch ($delta) {
+		case 'custom_header' :
+			$block ['content'] = custom_header_contents();
+			break;
+	}
+	return $block;
+}
+/**
+ * Custom function to generate block contents
+ * 
+ * @return Object  
+ */
+function custom_header_contents() {
+	$main = menu_build_tree ( 'main-menu' );
+	$main_menu = menu_tree_output ( $main );
+	
+	return theme ( 'custom_header_template', array (
+		"main_menu" => render ( $main_menu ) 
+	) );
+}
+/**
+ * Implements hook_menu
+ * 
+ * @return Object $items
+ */
+function custom_header_menu() {
+	$items = array ();
+		
+	$items ['profile'] = array (
+			'title' => 'Profile',
+			'description' => 'Profile page',
+			'page callback' => 'custom_profile_contents',
+			'access callback' => TRUE,
+			'type' => MENU_NORMAL_ITEM,
+			'weight' => 0,
+			'menu_name' => 'main-menu'
+	);
+
+	return $items;
+}
+/**
+ * Implements hook_theme
+ * 
+ * @return Object
+ */
+function custom_header_theme() {
+	menu_cache_clear_all ();
+	$path = drupal_get_path ( 'theme', 'demo' );
+
+	return array(
+		'custom_header_template' => array (
+				'variables' => array (
+						'var' => NULL 
+				),
+				'template' => 'block_header',
+				'path' => $path . '/templates/blocks/common' 
+		)
+	);
+}
+?>

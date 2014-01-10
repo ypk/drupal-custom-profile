@@ -1,0 +1,27 @@
+; Theme Info
+name = demo
+description = A Bootstrap based theme
+version = 1.0
+core = 7.x
+
+; Screenshot
+screenshot = screenshot.png
+
+; Logo
+logo = logo.png
+
+; Style
+stylesheets[all][] = css/contrib/bootstrap.css
+stylesheets[all][] = css/contrib/bootstrap-theme.css
+stylesheets[all][] = css/custom/demo-theme.css
+
+; Script
+scripts[] = js/contrib/jquery.js
+scripts[] = js/contrib/bootstrap.js
+
+; Region
+regions[header] = Header
+regions[highlighted] = Highlighted
+regions[help] = Help
+regions[content] = Content
+regions[footer] = Footer    

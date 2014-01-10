@@ -1,0 +1,111 @@
+/*
+* demo-theme
+* created on 9-1-2014
+* 
+* http://github.com/ypk
+*/
+
+.header-logo{
+	max-height: 30px;
+}
+
+.profile-thumb{
+	max-height: 100px;
+ 	max-width: 100px;
+ 	height: 100px;
+ 	width: 100px;
+}
+
+.profile-container,
+.media-container {
+	margin: 3%;
+}
+
+.profile-image img{
+	box-shadow:inset 0px 0px 1px #000;
+	-webkit-box-shadow: inset 0px 0px 1px #000;
+	background: #f0f0f0;
+	padding: 2%;
+	border-radius: 15px;
+} 
+
+.footer{
+	background-color: #555555;
+	width: 100%;
+}
+
+.footer .row{
+	color: #e3e3e3;
+	text-shadow: 2px 2px #333333;	
+	margin-top: 2%;
+	margin-bottom: 2%;
+}
+
+.navbar-nav {
+	margin: 0px;
+}
+
+.nav.navbar-nav.navbar-right li{
+	height: 60px;
+}
+.nav.navbar-nav.navbar-right li a{
+	margin-top: 5px;
+}
+
+li.media{
+	padding: 2%;
+}
+
+.media-body > .container > .row{
+	padding-top: 1%;
+}
+
+.media-body{
+	padding-left: 1%;
+}
+
+.action-link{
+	text-decoration: none;
+	padding-right: 25px;
+	position: relative;
+	font-size: 25px;
+	width: 250px;
+}
+.bio-row{
+	text-align: justify;
+}
+
+.link-row{
+	margin-top: 5%;	
+	margin-bottom: 5%;	
+}
+
+.link-row a{
+	color: #428bca;
+}
+
+.direction-icon{
+	padding-right: 5%;
+}
+.btn-icon {
+	padding-left: 10%;
+}
+.nav.navbar-nav.navbar-right li:hover,
+.nav.navbar-nav.navbar-right li:focus,
+.nav.navbar-nav.navbar-right > li > a:hover,
+.nav.navbar-nav.navbar-right > li > a:focus {
+	background-color: #428bca;
+	color: #ffffff;
+}
+
+
+
+li.expanded, li.collapsed, li.leaf {
+	margin: 0px;
+	padding: 0px;
+}
+
+ul li.leaf {
+	list-style-image: none !important;
+	list-style-type:  none !important;
+}

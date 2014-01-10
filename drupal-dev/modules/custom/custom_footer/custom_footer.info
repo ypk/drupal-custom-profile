@@ -1,0 +1,6 @@
+name = Footer
+description = Provides a <em>Footer</em>
+package = ypk
+core = 7.x
+version = 7.x-1.0
+project = demo

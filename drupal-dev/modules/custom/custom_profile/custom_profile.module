@@ -1,0 +1,105 @@
+<?php
+/**
+ * Implements hook_block_info
+ *
+ * @return Object $blocks
+ */
+function custom_profile_block_info() {
+	$blocks = array ();
+	$blocks ['custom_profile'] = array (
+			'info' => t ( 'Profile' ),
+			'weight' => 0,
+			'cache' => DRUPAL_CACHE_CUSTOM,
+			'status' => 1,
+			'visibility' => 0,
+	);
+	return $blocks;
+}
+
+function custom_profile_form_alter(&$form, &$form_state, $form_id) {
+	if ($form_id == 'profile_node_form') {
+	$form['title']['#title']= "Full Name";
+		$form ['#after_build'] = array (
+			'_load_cp_form_js'
+		);
+	}
+	return $form;
+}
+
+function _load_cp_form_js($element) {
+	$path = drupal_get_path ( 'theme', 'demo' );
+	drupal_add_js ( $path . '/js/custom/ux.cp.form.js', 'file' );
+	return ($element);
+}
+/**
+ * Implements hook_block_view
+ *
+ * @param string $delta
+ * @return Object $block
+ */
+function custom_profile_block_view($delta = '') {
+	switch ($delta) {
+		case 'custom_profile' :
+			$block ['content'] = custom_profile_contents();
+			break;
+	}
+	return $block;
+}
+/**
+ * Custom function to generate block contents
+ *
+ * @return Object
+ */
+function custom_profile_contents() {
+	$profile_content = array();
+	$path = drupal_get_path ( 'theme', 'demo' );
+ 	$query = new EntityFieldQuery ();
+	$query_result = $query->entityCondition ( 'entity_type', 'node' )->propertyCondition ( 'status', 1 )->entityCondition ( 'bundle', 'profile' );
+	$result = $query->execute ();
+	
+	if (isset ( $result ['node'] )) {
+		$items_nids = array_keys ( $result ['node'] );
+		$items = entity_load ( 'node', $items_nids );
+		foreach ( $items as $key => $data ) {
+			$name  = $data->title;
+			$bio = field_get_items ( 'node', $data, 'field_cp_bio' );
+			$pic = field_get_items ( 'node', $data, 'field_cp_picture' );
+			$slink = field_get_items ( 'node', $data, 'field_cp_social_link' );
+
+			$profile_content [$key]["full_name"] = $name;
+			$profile_content [$key]["summary"] = $bio['0']['summary'];
+			$profile_content [$key]["bio"] = $bio['0']['value'];
+			$profile_content [$key]["picture"] = ($pic == null) ? $path.'/img/noProfilePic.gif' : file_create_url($pic['0']['uri']);
+			$profile_content [$key]["social_link"] = $slink['0']['value'];
+		}
+	}
+	
+	return theme ( 'custom_profile_template', array (
+			"profile" => $profile_content 
+	) );
+}
+function generateURL($str){
+	$cleanURL = preg_replace ( "/[^a-zA-Z0-9\/_|+ -]/", '', $str );
+	$cleanURL = strtolower ( trim ( $cleanURL, '-' ) );
+	$cleanURL = preg_replace ( "/[\/_|+ -]+/", '-', $cleanURL );
+	return url ( $cleanURL );
+}
+/**
+ * Implements hook_theme
+ *
+ * @return Object
+ */
+function custom_profile_theme() {
+	menu_cache_clear_all ();
+	$path = drupal_get_path ( 'theme', 'demo' );
+	return array (
+			'custom_profile_template' => array (
+					'variables' => array (
+						'var' => NULL
+					),
+					'template' => 'block_profile',
+					'path' => $path . '/templates/blocks'
+			)
+	);
+}
+?>

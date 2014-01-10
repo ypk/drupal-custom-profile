@@ -1,0 +1,61 @@
+<?php
+/**
+ * Implements hook_block_info
+ *
+ * @return Object $blocks
+ */
+function custom_footer_block_info() {
+	$blocks = array();
+	$blocks['custom_footer'] = array(
+			'info'			=>	t('Footer'),
+			'weight'		=>	0,
+			'cache'			=>	DRUPAL_CACHE_CUSTOM,
+			'status'		=>	FALSE,
+			'visibility'	=>	0,
+			'region' 		=> 'footer',
+			'info'			=>	t('Footer'),
+	);
+	return $blocks;
+}
+/**
+ * Implements hook_block_view
+ *
+ * @param string $delta
+ * @return Object $block
+ */
+function custom_footer_block_view($delta = '') {
+	switch($delta) {
+		case 'custom_footer' :
+			$block['content'] = custom_footer_contents();
+			break;
+	}
+	return $block;
+}
+/**
+ * Custom function to generate block contents
+ *
+ * @return Object
+ */
+function custom_footer_contents() {
+	$footer_vars = array();
+	$footer_vars["site_name"] = variable_get('site_name'); // get site name
+	return theme ( 'custom_footer_template', array (
+			"footer_vars" => $footer_vars
+	) );
+}
+/**
+ * Implements hook_theme
+ * 
+ * @return Object
+ */
+function custom_footer_theme(){
+	$path = drupal_get_path('theme','demo');
+	return array(
+		'custom_footer_template' => array(
+			'variables' => array('var'=>NULL),
+			'template' => 'block_footer',
+			'path' => $path.'/templates/blocks/common'
+		)
+	);
+}
+?>
